@@ -19,19 +19,14 @@
 
  <!-- 注解驱动 -->
     <mvc:annotation-driven/>
-    
     <!-- 处理器映射器 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     
-     
     <!-- 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"  />
         <property name="suffix" value=".jsp"/>
     </bean>
-   
-    
-    
 <!-- 扫描实现类的包 -->
     <context:component-scan base-package="controller"></context:component-scan>
 	
