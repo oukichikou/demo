@@ -1,12 +1,14 @@
 package dao;
 
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
+
 import entity.Type;
 
 @Repository
@@ -14,8 +16,8 @@ public interface TypeDao {
 
 	
 
-	@Select("select Type.* from  Type ${where} ")
-	public  List<Type> getWhere(@Param("where") String where );
+	@Select("select Type.* from  Type   ${where}")
+	public  List<Type> getWhere(@Param("where") String where);
 
 	@Select("select Type.* from  Type ")
 	public  List<Type> getAll();

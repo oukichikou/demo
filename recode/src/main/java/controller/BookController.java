@@ -6,27 +6,28 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import entity.Type;
+import entity.Book;
+import service.BookService;
 import service.TypeService;
 
 @Controller
-public class testController {
+@RequestMapping("Book")
+public class BookController {
 	@Autowired
-	TypeService service;
+	BookService service;
+	
+	@Autowired
+	TypeService tservice;
 	
 	@RequestMapping("index")
 	public String index(String name,ModelMap m) {
 		String where=""; 
-		if(name!=null&&name.length()>0) where=" where name like '%"+name+"%' ";
+		if(name!=null&&name.length()>0) where=" where book.name like '%"+name+"%' ";
 		m.put("list", service.getWhere(where));
-		return "index";
+		return "Book/index";
 	}
 	
-	@RequestMapping("index1")
-	public String index1(Type t,ModelMap m) {
-		m.put("list", service.getWhere1(t));
-		return "index";
-	}
+	
 	
 	@RequestMapping("delete")
 	public String delete(int id,ModelMap m) {
@@ -36,7 +37,9 @@ public class testController {
 	
 	@RequestMapping("add")
 	public String add(ModelMap m) {
-		return "edit";
+		m.put("sexs", Book.sexs);
+		m.put("typelist", tservice.getAll());
+		return "Book/edit";
 	}
 	@RequestMapping("edit")
 	public String edit(int id,ModelMap m) {
@@ -45,12 +48,12 @@ public class testController {
 	}
 	
 	@RequestMapping("insert")
-	public String insert(  Type t,ModelMap m) {
+	public String insert(  Book t,ModelMap m) {
 		service.insert(t);
 		return index("", m);
 	}
 	@RequestMapping("update")
-	public String update(Type t,ModelMap m) {
+	public String update(Book t,ModelMap m) {
 		service.update(t);
 		return index("", m);
 	}
