@@ -14,10 +14,11 @@ import entity.Type;
 @Repository
 public interface TypeDao {
 
-	
+	@Select("select count(1) from  Type   ${where}")
+	public  int getCount(@Param("where") String where);
 
-	@Select("select Type.* from  Type   ${where}")
-	public  List<Type> getWhere(@Param("where") String where);
+	@Select("select Type.* from  Type   ${where} ${limit}")
+	public  List<Type> getWhere(@Param("where") String where,@Param("limit") String limit);
 
 	@Select("select Type.* from  Type ")
 	public  List<Type> getAll();

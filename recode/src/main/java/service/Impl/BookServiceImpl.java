@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 import dao.BookDao;
 import entity.Book;
 import service.BookService;
+import utils.ReturnInfo;
 
 @Service
 public class BookServiceImpl implements BookService{
 @Autowired
 BookDao dao;
 
-public List<Book> getWhere(String where) {
-	// TODO Auto-generated method stub
-	return dao.getWhere(where);
+public ReturnInfo getWhere(String where, Integer page, Integer limit) {
+	boolean canpage=page!=null;
+	ReturnInfo info = new ReturnInfo();
+	info.setList(dao.getWhere(where,ReturnInfo.getLimit(page, limit)));
+	if(canpage)info.setCount(dao.getCount(where));
+	  return info;
 }
 
 public List<Book> getAll() {

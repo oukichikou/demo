@@ -10,10 +10,15 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import entity.Book;
+import entity.Type;
 @Repository
 public interface BookDao {
-		@Select("select Book.*,type.name typename from  Book inner join type on book.typeid=type.id   ${where} ")
-		public  List<Book> getWhere(@Param("where") String where);
+	
+	@Select("select count(1) from  Book   ${where}")
+	public  int getCount(@Param("where") String where);
+	
+		@Select("select Book.*,type.name typename from  Book inner join type on book.typeid=type.id   ${where}  ${limit}")
+		public  List<Book> getWhere(@Param("where") String where,@Param("limit") String limit);
 
 		@Select("select Book.* from  Book ")
 		public  List<Book> getAll();

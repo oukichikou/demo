@@ -4,9 +4,11 @@ import java.util.List;
 
 
 import entity.Book;
+import utils.ReturnInfo;
 
 public interface BookService {
-	public  List<Book> getWhere( String where);
+	public  ReturnInfo getWhere( String where,Integer page,Integer limit);
+
 
 	public  List<Book> getAll();
 

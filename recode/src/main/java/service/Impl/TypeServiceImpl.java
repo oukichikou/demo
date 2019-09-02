@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 import dao.TypeDao;
 import entity.Type;
 import service.TypeService;
+import utils.ReturnInfo;
 
 @Service
 public class TypeServiceImpl implements TypeService{
 @Autowired
 TypeDao dao;
-
-public List<Type> getWhere(String where) {
-	// TODO Auto-generated method stub
-	return dao.getWhere(where);
+public ReturnInfo getWhere(String where, Integer page, Integer limit) {
+	boolean canpage=page!=null;
+	ReturnInfo info = new ReturnInfo();
+	info.setList(dao.getWhere(where,ReturnInfo.getLimit(page, limit)));
+	if(canpage)info.setCount(dao.getCount(where));
+	  return info;
 }
 
 public List<Type> getAll() {
@@ -43,5 +46,7 @@ public Integer update(Type t) {
 	// TODO Auto-generated method stub
 	return dao.update(t);
 }
+
+
 
 }

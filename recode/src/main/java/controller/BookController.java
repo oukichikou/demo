@@ -3,15 +3,22 @@ package controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import entity.Book;
 import entity.Book;
 import service.BookService;
 import service.TypeService;
+import utils.ReturnInfo;
+import utils.ReturnJson;
 
 @Controller
-@RequestMapping("Book")
 public class BookController {
 	@Autowired
 	BookService service;
@@ -19,42 +26,37 @@ public class BookController {
 	@Autowired
 	TypeService tservice;
 	
-	@RequestMapping("index")
-	public String index(String name,ModelMap m) {
+	@GetMapping("Book/{id}")
+	public @ResponseBody Book edit(@PathVariable("id") int id,ModelMap m) {
+		return service.getByid(id);
+	}
+	@GetMapping(value="Book")
+	public @ResponseBody ReturnInfo index(String name,Integer page,Integer limit,ModelMap m) {
 		String where=""; 
 		if(name!=null&&name.length()>0) where=" where book.name like '%"+name+"%' ";
-		m.put("list", service.getWhere(where));
-		return "Book/index";
+		return service.getWhere(where,page,limit);
 	}
 	
-	
-	
-	@RequestMapping("delete")
-	public String delete(int id,ModelMap m) {
-		service.delete(id);
-		return index("", m);
+	@GetMapping(value="Book/sexs")
+	public @ResponseBody String[] getsexs() {
+		return Book.sexs;
 	}
 	
-	@RequestMapping("add")
-	public String add(ModelMap m) {
-		m.put("sexs", Book.sexs);
-		m.put("typelist", tservice.getAll());
-		return "Book/edit";
-	}
-	@RequestMapping("edit")
-	public String edit(int id,ModelMap m) {
-		m.put("info", service.getByid(id));
-		return add(m);
-	}
-	
-	@RequestMapping("insert")
-	public String insert(  Book t,ModelMap m) {
+	@PostMapping("Book")
+	public @ResponseBody ReturnJson insert( Book t,ModelMap m) {
 		service.insert(t);
-		return index("", m);
+		return new ReturnJson();
 	}
-	@RequestMapping("update")
-	public String update(Book t,ModelMap m) {
+	
+	@DeleteMapping("Book/{id}")
+	public @ResponseBody ReturnJson delete(@PathVariable("id") int id,ModelMap m) {
+		service.delete(id);
+       return new ReturnJson();
+	}
+	
+	@PutMapping("Book/{id}")
+	public @ResponseBody ReturnJson update(Book t,ModelMap m) {
 		service.update(t);
-		return index("", m);
+		return new ReturnJson();
 	}
 }

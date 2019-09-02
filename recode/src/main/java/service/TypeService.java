@@ -4,9 +4,10 @@ import java.util.List;
 
 
 import entity.Type;
+import utils.ReturnInfo;
 
 public interface TypeService {
-	public  List<Type> getWhere( String where);
+	public  ReturnInfo getWhere( String where,Integer page,Integer limit);
 
 	public  List<Type> getAll();
 
