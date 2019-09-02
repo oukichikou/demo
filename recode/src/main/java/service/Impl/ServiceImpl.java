@@ -26,4 +26,24 @@ TypeDao1 mdao;
 		return mdao.getWhere(t);
 	}
 
+	public Type getByid(int id) {
+		// TODO Auto-generated method stub
+		return dao.getByid(id);
+	}
+
+	public int delete(int id) {
+		// TODO Auto-generated method stub
+		return dao.delete(id);
+	}
+
+	public Integer insert(Type t) {
+		// TODO Auto-generated method stub
+		return dao.insert(t);
+	}
+
+	public Integer update(Type t) {
+		// TODO Auto-generated method stub
+		return dao.update(t);
+	}
+
 }

@@ -8,14 +8,29 @@
 <title></title>
 </head>
 <body>
-<form action="index1" method="post">
+<script type="text/javascript">
+function del(id){
+	if(confirm("删除？")){
+		open("delete?id="+id,'_self');
+	}
+}
+
+</script>
+
+<form action="index" method="post">
 	<input name="name">
 	<button type="submit">查询</button>
+	<button type="button" onclick="window.open('add','_self');">新增</button>
 </form> 
 <table>
-<tr><td>名称</td></tr>
+<tr><td>名称</td><td>功能</td></tr>
  <c:forEach items="${list}" var="row">
- <tr><td>${row.name}</td></tr>
+ <tr><td>${row.name}</td>
+ <td>
+ <a href="javascript:del(${row.id})">删除</a> 
+ <a href="edit?id=${row.id}">修改</a>
+ </td>
+ </tr>
  </c:forEach>
 </table>
 
