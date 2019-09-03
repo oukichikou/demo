@@ -5,9 +5,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+<script type="text/javascript">
+var pos=0;
+function chan(o){
+	o.src="img?a="+(pos++);
+}
+</script>
 <form action="User/login" method="post">
 <input name="name">
 <input name="pass"  type="password">
+<input name="code"><img src="img" onclick="chan(this);">
 <button type="submit">登陆</button>
 </form>
 </body>

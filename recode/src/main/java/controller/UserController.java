@@ -19,7 +19,11 @@ public class UserController {
 	UserService service;
 	
 	@RequestMapping("login")
-	public String login(User u,ModelMap m,HttpSession s) {
+	public String login(User u,String code,ModelMap m,HttpSession s) {
+		String num=s.getAttribute("number").toString();
+		if(!num.equalsIgnoreCase(code)) {
+			return "redirect:/login.html";
+		}
 		User user=service.login(u);
 		if(user!=null) {
 			s.setMaxInactiveInterval(10);
