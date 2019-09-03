@@ -21,16 +21,14 @@ function ok(o){
 	if(o.contentWindow.location.href.indexOf("login")>0){
 		open("login.html","_self");
 	}
-	
 }
 
 </script>
+
 <div class="left">
 <a href="Book/index" target="right">book</a></br>
 <a href="Type/index" target="right">type</a>
 </div>
-
-
 <div class="right">
 <iframe name="right" width="300" height="300" src="Book/index" onload="ok(this);"></iframe>
 </div>

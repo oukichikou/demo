@@ -16,12 +16,7 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-   <mvc:interceptors>
-    <mvc:interceptor>
-    <mvc:mapping path="/**"/>
-     <bean class="interceptor.LoginInterceptor"/>
-    </mvc:interceptor>
-</mvc:interceptors>
+   
  <!-- 注解驱动 -->
     <mvc:annotation-driven/>
     <!-- 处理器映射器 -->
@@ -41,4 +36,5 @@
     <context:component-scan base-package="service.Impl"></context:component-scan>
     <context:component-scan base-package="dao"></context:component-scan>
 	<import resource="classpath:applicationContext-dao.xml"/>
+	<import resource="classpath:shiro.xml"/>
 </beans>
