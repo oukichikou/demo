@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="s"  uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html >
 <html>
 <head>
@@ -26,6 +27,10 @@ function ok(o){
 </script>
 
 <div class="left">
+<s:hasPermission name="add">
+<a href="Book/add" target="right">dddddddddddddd</a></br>
+</s:hasPermission>
+
 <a href="Book/index" target="right">book</a></br>
 <a href="Type/index" target="right">type</a>
 </div>

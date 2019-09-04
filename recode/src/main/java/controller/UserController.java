@@ -3,6 +3,10 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,23 +24,23 @@ public class UserController {
 	
 	@RequestMapping("login")
 	public String login(User u,String code,ModelMap m,HttpSession s) {
-		String num=s.getAttribute("number").toString();
-		if(!num.equalsIgnoreCase(code)) {
+//		String num=s.getAttribute("number").toString();
+//		if(!num.equalsIgnoreCase(code)) {
+//			return "redirect:/login.html";
+//		}
+//		
+		try {
+		
+		SecurityUtils.getSubject().login(new UsernamePasswordToken(u.getName(),
+				u.getPass()));
+		}catch (AccountException e) {
 			return "redirect:/login.html";
 		}
-		User user=service.login(u);
-		if(user!=null) {
-			s.setMaxInactiveInterval(10);
-			s.setAttribute("user", user);
-			return "redirect:/index.jsp";
-		}else {
-			return "redirect:/login.html";
-		}
+		return "redirect:/index.jsp";
 	}
 	@RequestMapping("outlogin")
 	public String login(HttpSession s,HttpServletRequest req) {
-		s.removeAttribute("user");
-		
+		SecurityUtils.getSubject().logout();
 		return "redirect:../login.html";
 	}
 	
@@ -56,6 +60,7 @@ public class UserController {
 		service.delete(id);
 		return index("", m);
 	}
+	
 	
 	@RequestMapping("add")
 	public String add(ModelMap m) {
