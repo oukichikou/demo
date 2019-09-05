@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import entity.Type;
 
 @Repository
-public interface TypeDao {
+public interface TypeDao  {
 
 	
 
@@ -23,10 +23,10 @@ public interface TypeDao {
 	public  List<Type> getAll();
 
 	@Select("select Type.* from Type  where id=#{id}")
-	public  Type getByid(int id);
+	public  Type getByid(@Param("id") Integer id);
 
 	@Delete("delete from Type where id=#{id}")
-	public int delete(int id);
+	public int delete(@Param("id") Integer id);
 
 	 @Insert("insert into Type (name) values(#{name})")
 	 public Integer insert(Type t);

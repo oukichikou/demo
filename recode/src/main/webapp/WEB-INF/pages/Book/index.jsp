@@ -18,7 +18,7 @@ function del(id){
 </script>
 
 <form action="index" method="post">
-	<input name="name">
+	<input name="txt">
 	<button type="submit">查询</button>
 	<button type="button" onclick="window.open('add','_self');">新增</button>
 </form> 

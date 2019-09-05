@@ -19,10 +19,10 @@ public interface BookDao {
 		public  List<Book> getAll();
 
 		@Select("select Book.* from Book  where id=#{id}")
-		public  Book getByid(int id);
+		public  Book getByid(@Param("id")Integer id);
 
 		@Delete("delete from Book where id=#{id}")
-		public int delete(int id);
+		public int delete(@Param("id")Integer id);
 
 		 @Insert("insert into Book (name,sex,typeid) values(#{name},#{sex},#{typeid})")
 		 public Integer insert(Book t);

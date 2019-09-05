@@ -1,5 +1,7 @@
 package controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,49 +14,36 @@ import service.TypeService;
 
 @Controller
 @RequestMapping("Book")
-public class BookController {
+public class BookController extends BasicController<Book> {
 	@Autowired
 	BookService service;
 	
 	@Autowired
 	TypeService tservice;
+//	
+//	
+//	
+
 	
-	@RequestMapping("index")
-	public String index(String name,ModelMap m) {
+	@Override
+	public String index(ModelMap m,HttpServletRequest req) {
+		String txt=req.getParameter("txt");
 		String where=""; 
-		if(name!=null&&name.length()>0) where=" where book.name like '%"+name+"%' ";
+		if(txt!=null&&txt.length()>0) where=" where book.name like '%"+txt+"%' ";
 		m.put("list", service.getWhere(where));
 		return "Book/index";
 	}
-	
-	
-	
-	@RequestMapping("delete")
-	public String delete(int id,ModelMap m) {
-		service.delete(id);
-		return index("", m);
-	}
-	
+
 	@RequestMapping("add")
-	public String add(ModelMap m) {
+	public String add(ModelMap m,HttpServletRequest req) {
 		m.put("sexs", Book.sexs);
 		m.put("typelist", tservice.getAll());
 		return "Book/edit";
 	}
 	@RequestMapping("edit")
-	public String edit(int id,ModelMap m) {
+	public String edit(Integer id,ModelMap m,HttpServletRequest req) {
 		m.put("info", service.getByid(id));
-		return add(m);
+		return add(m,req);
 	}
-	
-	@RequestMapping("insert")
-	public String insert(  Book t,ModelMap m) {
-		service.insert(t);
-		return index("", m);
-	}
-	@RequestMapping("update")
-	public String update(Book t,ModelMap m) {
-		service.update(t);
-		return index("", m);
-	}
+
 }
