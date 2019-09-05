@@ -114,7 +114,7 @@
 			table.on('toolbar(test)', function(obj) {
 				if (obj.event === 'search') {
 					var txt = $(event.target).prev().find("input").val();
-					reload('demo',{name: txt,_metod:"GET"});
+					reload('demo',{where: txt,_metod:"GET"});
 				} else {
 					openFrame("Book/edit.html","新增",['340px', '60%']);
 				}

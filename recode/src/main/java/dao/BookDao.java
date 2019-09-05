@@ -15,7 +15,7 @@ import entity.Type;
 public interface BookDao {
 	
 	@Select("select count(1) from  Book   ${where}")
-	public  int getCount(@Param("where") String where);
+	public  Integer getCount(@Param("where") String where);
 	
 		@Select("select Book.*,type.name typename from  Book inner join type on book.typeid=type.id   ${where}  ${limit}")
 		public  List<Book> getWhere(@Param("where") String where,@Param("limit") String limit);
@@ -24,10 +24,10 @@ public interface BookDao {
 		public  List<Book> getAll();
 
 		@Select("select Book.* from Book  where id=#{id}")
-		public  Book getByid(int id);
+		public  Book getByid(@Param("id")Integer id);
 
 		@Delete("delete from Book where id=#{id}")
-		public int delete(int id);
+		public Integer delete(@Param("id")Integer id);
 
 		 @Insert("insert into Book (name,sex,typeid) values(#{name},#{sex},#{typeid})")
 		 public Integer insert(Book t);

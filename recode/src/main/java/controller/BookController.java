@@ -17,46 +17,24 @@ import service.BookService;
 import service.TypeService;
 import utils.ReturnInfo;
 import utils.ReturnJson;
+import utils.SearchInfo;
 
 @Controller
-public class BookController {
+@RequestMapping("Book")
+public class BookController extends BasicController<Book>{
 	@Autowired
 	BookService service;
 	
-	@Autowired
-	TypeService tservice;
 	
-	@GetMapping("Book/{id}")
-	public @ResponseBody Book edit(@PathVariable("id") int id,ModelMap m) {
-		return service.getByid(id);
-	}
-	@GetMapping(value="Book")
-	public @ResponseBody ReturnInfo index(String name,Integer page,Integer limit,ModelMap m) {
-		String where=""; 
-		if(name!=null&&name.length()>0) where=" where book.name like '%"+name+"%' ";
-		return service.getWhere(where,page,limit);
+	@Override
+	public ReturnInfo index(SearchInfo info, Integer page, Integer limit, ModelMap m) {
+		info.addLike("book.name");
+		return super.index(info, page, limit, m);
 	}
 	
-	@GetMapping(value="Book/sexs")
+	@GetMapping(value="sexs")
 	public @ResponseBody String[] getsexs() {
 		return Book.sexs;
 	}
 	
-	@PostMapping("Book")
-	public @ResponseBody ReturnJson insert( Book t,ModelMap m) {
-		service.insert(t);
-		return new ReturnJson();
-	}
-	
-	@DeleteMapping("Book/{id}")
-	public @ResponseBody ReturnJson delete(@PathVariable("id") int id,ModelMap m) {
-		service.delete(id);
-       return new ReturnJson();
-	}
-	
-	@PutMapping("Book/{id}")
-	public @ResponseBody ReturnJson update(Book t,ModelMap m) {
-		service.update(t);
-		return new ReturnJson();
-	}
 }

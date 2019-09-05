@@ -75,7 +75,7 @@ function init(){
 	$.post("Book/"+id,{_method:"GET"}, function(json) {
 		render('myform', json);
 		getarray("Book/sexs",{_method:"GET"},"[name=sex]",json.sex);
-		getlist1("Type",{_method:"GET"},"[name=typeid]",json.typeid);
+		getlist("Type/list",{_method:"GET"},"[name=typeid]",json.typeid);
 	},"json");
 	
 }
@@ -83,7 +83,7 @@ if(id!=null&&id.length>0){
 	init();
 }else{
 	getarray("Book/sexs",{_method:"GET"},"[name=sex]",0);
-	getlist1("Type",{_method:"GET"},"[name=typeid]",0);
+	getlist("Type/list",{_method:"GET"},"[name=typeid]",0);
 }
 
 </script>
