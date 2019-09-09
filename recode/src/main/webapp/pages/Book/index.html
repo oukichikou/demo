@@ -1,14 +1,26 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html>
-<head>
-<base href="../">
+	<head>
+		
 <meta charset="UTF-8">
-<link href="layui/css/layui.css" rel="stylesheet">
-<script type="text/javascript" src="layui/layui.all.js"></script>
-<script src="js/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="js/my.js"></script>
-<title></title>
-<style type="text/css">
+		<title></title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		
+<link href="../../lib/layui/css/layui.css" rel="stylesheet">
+<script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
+<script src="../../js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="../../js/my.js"></script>
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	    
+	    <style type="text/css">
 .input {
 	font-size: 16px; width : 200px;
 	height: 30px;
@@ -19,10 +31,19 @@
 
 .layui-form-select{width:200px;
 }
+.weadmin-body {
+    padding: 0 0 0 5px;
+}
 </style>
-</head>
-<body>
-	<table id="demo" lay-filter="test"></table>
+	</head>
+
+	<body onresize="AutoTableHeight();">
+		
+		<div class="weadmin-body">
+			
+			<div id="table_and_page_div">
+			<table id="demo" lay-filter="test"></table>
+			</div>
 	<script type="text/html" id="barDemo">
 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -39,6 +60,24 @@
 
 	<script>
 	
+	function AutoTableHeight()
+    {
+        var dev_obj = document.getElementById('table_and_page_div'); //table的父div
+ 
+        var layuitable_main = dev_obj.getElementsByClassName("layui-table-main");   //在父div中找 layui-table-main 属性所在标签
+        if (layuitable_main != null && layuitable_main.length > 0) {
+            layuitable_main[0].style.height = '100%';   
+           
+        }
+ 
+        var layuitable = dev_obj.getElementsByClassName("layui-form");   //在父div中找 layui-form 属性所在标签
+        if (layuitable != null && layuitable.length > 0) {
+            layuitable[0].style.height = '100%';
+           
+        }
+    }
+	
+	
 		layui.use('table', function() {
 			var table = layui.table;
 
@@ -46,9 +85,12 @@
 			table.render({
 				elem : '#demo',
 				height : 462,
-				url : 'Book' //数据接口
+				url : '/recode/Book' //数据接口
 				,
 				method:'post',
+				done: function (res, curr, count) {
+		            AutoTableHeight();
+		        },
 				where:{_method:"GET"},
 				toolbar : '#toolbarDemo',
 				page : true //开启分页
@@ -67,11 +109,11 @@
 				}, {
 					field : 'sexname',
 					title : '性别',
-					width : 180
+					width : 120
 				}, {
 					field : 'typename',
 					title : '类型',
-					width : 180
+					width : 120
 				}, {
 					fixed : 'right',
 					title : '操作',
@@ -107,7 +149,7 @@
 								}, "json");
 					});
 				}else{
-					openFrame('Book/edit.html?id='+data.id,"修改",['340px', '60%']);
+					openFrame('pages/Book/edit.html?id='+data.id,"修改",['340px', '60%']);
 				}
 			});
 
@@ -116,11 +158,14 @@
 					var txt = $(event.target).prev().find("input").val();
 					reload('demo',{where: txt,_metod:"GET"});
 				} else {
-					openFrame("Book/edit.html","新增",['340px', '60%']);
+					openFrame("pages/Book/edit.html","新增",['340px', '60%']);
 				}
 			});
 
 		});
 	</script>
-</body>
+
+		</div>
+		</body>
+
 </html>
