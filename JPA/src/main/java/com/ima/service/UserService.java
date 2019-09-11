@@ -2,6 +2,9 @@ package com.ima.service;
 
 import com.ima.model.User;
 import com.ima.repository.UserRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public List<User> select(){
+       return  userRepository.findAll();
+    }
+    
     public void save(User user){
         userRepository.save(user);
     }

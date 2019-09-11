@@ -35,6 +35,8 @@ public class UserController {
     @Autowired
     private JedisClient jedisClient;
 
+   
+    
     //test：
     @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html;charset=UTF-8")
     public String test(String type, Integer iDouCount )  {
