@@ -4,15 +4,15 @@
 	<persistence-unit name="com.ima" transaction-type="RESOURCE_LOCAL">
 
 		<!--ENABLE_SELECTIVE[(默认和推荐值):实体不缓存,除非明确标记为可缓存的。] DISABLE_SELECTIVE[实体缓存,除非明确标记为不缓存] NONE[无缓存] ALL[全部缓存]-->
-		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<!-- 使用MySQL方言 -->
 			<property name="hibernate.dialect" value="com.ima.utils.MySQL5DialectUTF8"/>
 
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:mysql:///aidou" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/mydb" />
 			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="751197996" />
+			<property name="hibernate.connection.password" value="123" />
 
 			<property name="hibernate.connection.charSet" value="UTF-8" />
 			<!-- 自动输出schema创建DDL语句 -->

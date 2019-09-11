@@ -40,7 +40,7 @@
 	<!-- 指定JPA实现 -->
 	<bean id="jpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="showSql" value="false" />
+		<property name="showSql" value="true" />
 	</bean>
 
 	<!-- 适用于所有环境的FactoryBean，能全面控制EntityManagerFactory配置,如指定Spring定义的DataSource等等. -->
