@@ -7,8 +7,7 @@
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<!-- 使用MySQL方言 -->
-			<property name="hibernate.dialect" value="com.ima.utils.MySQL5DialectUTF8"/>
-
+			
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/mydb" />
 			<property name="hibernate.connection.username" value="root" />

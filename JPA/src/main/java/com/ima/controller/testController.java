@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ima.model.Type;
 import com.ima.repository.TypeRepository;
 import com.ima.service.TypeService;
-import com.ima.service.UserService;
 
 @Controller
 public class testController {
