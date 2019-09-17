@@ -21,7 +21,14 @@
     <mvc:annotation-driven/>
     <!-- 处理器映射器 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
-    
+     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <!-- 加入 json数据的消息转换器 MappingJacksonHttpMessageConverter依赖Jackson的包 -->
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+            </list>
+        </property>
+    </bean>
     <!-- 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"  />
@@ -32,4 +39,62 @@
     <context:component-scan base-package="service.Impl"></context:component-scan>
     <context:component-scan base-package="dao"></context:component-scan>
 	<import resource="classpath:applicationContext-dao.xml"/>
+	
+	 <!-- 连接池基本参数配置，类似数据库连接池 -->
+    <context:property-placeholder location="classpath:redis.properties"
+        ignore-unresolvable="true" /> 
+    
+    <!-- redis连接池 -->  
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="600" />
+        <property name="maxIdle" value="300" />
+        <property name="testOnBorrow" value="true" />
+    </bean>
+
+    <!-- 连接池配置，类似数据库连接池 -->
+    <bean id="jedisConnectionFactory"
+        class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="127.0.0.1"></property>
+        <property name="port" value="6379"></property>
+        <!-- <property name="password" value="${redis.pass}"></property> -->
+        <property name="poolConfig" ref="poolConfig"></property>
+    </bean>
+
+    <!--redis操作模版,使用该对象可以操作redis  -->  
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >    
+        <property name="connectionFactory" ref="jedisConnectionFactory" />    
+        <!--如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  -->    
+        <property name="keySerializer" >    
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />    
+        </property>    
+        <property name="valueSerializer" >    
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />    
+        </property>    
+        <property name="hashKeySerializer">    
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>    
+        </property>    
+        <property name="hashValueSerializer">    
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>    
+        </property>    
+        <!--开启事务  -->  
+        <property name="enableTransactionSupport" value="true"></property>  
+    </bean >   
+
+
+      <!-- 配置RedisCacheManager -->
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg name="redisOperations" ref="redisTemplate" />
+        <property name="defaultExpiration" value="30000000" />
+    </bean>
+
+    <!-- 配置RedisCacheConfig -->
+    <bean id="redisCacheConfig" class="jedis.RedisCacheConfig">
+        <constructor-arg ref="jedisConnectionFactory"/>
+        <constructor-arg ref="redisTemplate"/>
+        <constructor-arg ref="redisCacheManager"/>
+    </bean>
+    
+
+
+	
 </beans>

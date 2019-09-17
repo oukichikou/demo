@@ -1,6 +1,9 @@
 package service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import dao.TypeDao;
@@ -13,5 +16,15 @@ public class TypeServiceImpl extends BasicServiceImpl<Type> implements  TypeServ
 TypeDao dao;
 
 
+	public List<Type> getAll() {
+		return super.getAll();
+	}
+
+	@CachePut(value="type")
+	public Type getByid(Integer id) {
+
+		System.out.println("≤È—Ø");
+		return super.getByid(id);
+	}
 
 }
