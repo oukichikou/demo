@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import annotation.logTextAnotation;
 import entity.Type;
 import service.TypeService;
 import utils.ReturnInfo;
@@ -32,11 +33,23 @@ public class TypeController extends BasicController<Type> {
 			info.addLike("name");
 		return super.index(info, page, limit, m);
 	}
+	@GetMapping("aaaaa")
+	public String aaaa(){
+		service.getByid(1);
+		return "";
+	}
+	@GetMapping("aaaaa1")
+	public String getByid(){
+		service.getByid(1);
+		return "";
+	}
 	
 	@GetMapping("list")
-	public List getlist() {
+	public List getlist(SearchInfo info) {
 		return service.getAll();
 	}
+	
+	
 	
 	
 }

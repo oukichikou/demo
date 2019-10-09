@@ -29,7 +29,7 @@ public interface TypeDao {
 	@Delete("delete from Type where id=#{id}")
 	public Integer delete(@Param("id")Integer id);
 
-	 @Insert("insert into Type (name) values(#{name})")
+	 @Insert("insert into Type (id,name) values(#{id},#{name})")
 	 public Integer insert(Type t);
 
 	 @Update("update Type set name=#{name} where id=#{id}")

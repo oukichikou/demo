@@ -27,23 +27,34 @@
     </filter-mapping>
   
   <servlet-mapping>  
-     <servlet-name>default</servlet-name>  
      <url-pattern>*.html</url-pattern>  
 	</servlet-mapping>  
 
 
   <servlet>
+  
     <servlet-name>dispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:applicationContext.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+  	<servlet-name>ddd</servlet-name>
+  	<display-name>ddd</display-name>
+  	<description></description>
+  	<servlet-class>annotation.ddd</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ddd</servlet-name>
+  	<url-pattern>/ddd</url-pattern>
   </servlet-mapping>
 </web-app>

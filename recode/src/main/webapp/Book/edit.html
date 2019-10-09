@@ -16,7 +16,7 @@
 </style>
 
 
-<form class="layui-form" lay-filter="myform">
+<form class="layui-form" lay-filter="myform" >
 <input type="hidden" name="id" >
 
   <div class="layui-form-item">
@@ -35,10 +35,11 @@
    <div class="layui-form-item">
     <label class="layui-form-label">类型</label>
     <div class="layui-input-block">
-      <select name="typeid" >
-      </select>
+     <input type="text"  readonly="readonly"  name ="typenames" autocomplete="off" class="layui-input demo" value="1118,711,611" ts-selected="dddd,8,611"  >
+   	<input type="hidden" name="typeids">
     </div>
   </div>
+  
   
    <div class="layui-form-item">
     <div class="layui-input-block">
@@ -46,13 +47,15 @@
     </div>
   </div>
 </form>
-
+<script type="text/javascript" src="layui/lay/modules/tableSelect.js"></script>
 <script type="text/javascript">
 
 var id=getQueryString("id");
 
-layui.use(['form',], function(){
+layui.use(['form'], function(){
 	  var form = layui.form;
+	  
+	  
 	  form.on('submit(demo1)', function(data){
 		  var s="Book";
 		  if(id!=null){
@@ -68,22 +71,61 @@ layui.use(['form',], function(){
 		  });
 });
 
-
+var tableSelect = layui.tableSelect;
+tableSelect.render({
+	elem: '.demo',	//定义输入框input对象 必填
+	add:function(){
+		alert("add");
+	},
+	checkedKey: 'name', //表格的唯一建值，非常重要，影响到选中状态 必填
+	searchKey: 'where',	//搜索输入框的name值 默认keyword
+	searchPlaceholder: '搜索',	//搜索输入框的提示文字 默认关键词搜索
+	table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+		url:'Type/list',
+		height: 200,
+		page:true,
+		cols: [[
+			{ type: 'checkbox' },
+,{
+			field : 'name',
+			title : '名称',
+			width : 380
+		}]],
+		parseData : function(res) {
+			return {
+				"code" : 0,
+				"msg" : "",
+				"count" : res.length,
+				data : res
+			}
+		}
+	},
+	done: function (elem, data) {
+	//选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+	//拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+		var NEWJSON = []
+		var NEWJSON1 = []
+		layui.each(data.data, function (index, item) {
+			NEWJSON.push(item.name)
+			NEWJSON1.push(item.id)
+		})
+		elem.val(NEWJSON.join(","))
+		$("[name=typeid]").val(NEWJSON1.join(","));
+	}
+})
 
 
 function init(){
 	$.post("Book/"+id,{_method:"GET"}, function(json) {
 		render('myform', json);
 		getarray("Book/sexs",{_method:"GET"},"[name=sex]",json.sex);
-		getlist("Type/list",{_method:"GET"},"[name=typeid]",json.typeid);
-	},"json");
+		},"json");
 	
 }
 if(id!=null&&id.length>0){
 	init();
 }else{
 	getarray("Book/sexs",{_method:"GET"},"[name=sex]",0);
-	getlist("Type/list",{_method:"GET"},"[name=typeid]",0);
 }
 
 </script>

@@ -19,9 +19,14 @@
 
  <!-- 注解驱动 -->
     <mvc:annotation-driven/>
-    <mvc:resources location="/layui/" mapping="/layui/**"></mvc:resources>
-    <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
-    <mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+  
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+    <property name="defaultEncoding" value="utf-8"/> 
+    <property name="maxUploadSize" value="10485760000"/> 
+    <property name="maxInMemorySize" value="40960"/> 
+   </bean> 
+    
     <!-- 处理器映射器 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
      <!-- 处理器适配器 -->
@@ -42,5 +47,8 @@
     <context:component-scan base-package="controller"></context:component-scan>
     <context:component-scan base-package="service.Impl"></context:component-scan>
     <context:component-scan base-package="dao"></context:component-scan>
+    <context:component-scan base-package="aop"></context:component-scan>
 	<import resource="classpath:applicationContext-dao.xml"/>
+	
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 </beans>

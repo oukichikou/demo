@@ -22,6 +22,8 @@
 </style>
 </head>
 <body>
+<button onclick="getnum();">num</button>
+<div id="slideTest1"></div>
 	<table id="demo" lay-filter="test"></table>
 	<script type="text/html" id="barDemo">
 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -32,13 +34,36 @@
     <div class="layui-input-inline">
       <input type="text" name="txt" lay-verify="title"  autocomplete="off" placeholder="请输入名称" class="layui-input input">
     </div>
-    <button class="layui-btn layui-btn-sm" lay-event="search">查询</button>
-    <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+    <button class="layui-btn layui-btn-sm" lay-event="search">批量上传</button>
+    <button class="layui-btn layui-btn-sm" lay-event="add" >新增</button>
   </div>
 </script>
 
 	<script>
-	
+	function upload(){
+
+		    layui.use('upload', function(){
+		        var upload = layui.upload;
+
+		        //执行上传
+		        var uploadInst = upload.render({
+		            elem: '[lay-event=search]' //绑定元素
+		            ,url: '/Test/upload' //上传接口
+		            ,method: 'POST'
+		            ,accept: 'file'
+		            ,size: 50
+		            ,auto: true
+		            ,bindAction: '#testListAction'
+		            ,done: function(res){//上传完毕回调
+		                var result = '';
+						alert(res);
+		            }
+		            ,error: function(){//请求异常回调
+		                layer.msg('网络异常，请稍后重试！');
+		            }
+		        });
+		    });
+	}
 		layui.use('table', function() {
 			var table = layui.table;
 
@@ -46,11 +71,12 @@
 			table.render({
 				elem : '#demo',
 				height : 462,
-				url : 'Book' //数据接口
+				url : 'Type' //数据接口
 				,
 				method:'post',
 				where:{_method:"GET"},
 				toolbar : '#toolbarDemo',
+				totalRow:true,
 				page : true //开启分页
 				,
 				cols : [ [ //表头
@@ -59,19 +85,13 @@
 					title : 'ID',
 					width : 80,
 					sort : true,
+					totalRow:true,
+					totalRowText:"i大合集",
 					fixed : 'right'
 				}, {
 					field : 'name',
-					title : '书名',
+					title : '用户名',
 					width : 280
-				}, {
-					field : 'sexname',
-					title : '性别',
-					width : 180
-				}, {
-					field : 'typename',
-					title : '类型',
-					width : 180
 				}, {
 					fixed : 'right',
 					title : '操作',
@@ -100,27 +120,39 @@
 				if (obj.event === 'del') { ///lay-event 属性
 					
 					myconfirm("刪除？",function(){
-						$.post("Book/"+data.id, {_method:"DELETE"}, 
+						$.post("Type/"+data.id, {_method:"DELETE"}, 
 								function(json) {
 							reload('demo');
 							layer.close(layer.index);
 								}, "json");
 					});
 				}else{
-					openFrame('Book/edit.html?id='+data.id,"修改",['640px', '80%']);
+					openFrame('Type/edit.html?id='+data.id,"修改",['340px', '40%']);
 				}
 			});
 
 			table.on('toolbar(test)', function(obj) {
-				if (obj.event === 'search') {
-					var txt = $(event.target).prev().find("input").val();
-					reload('demo',{where: txt,_metod:"GET"});
-				} else {
-					openFrame("Book/edit.html","新增",['640px', '80%']);
-				}
+				
+					upload();
 			});
 
 		});
+		 var ssss=0 ;
+		layui.use('slider', function(){
+			var  slider = layui.slider;
+			  
+			  //渲染
+			ssss=  slider.render({
+			    elem: '#slideTest1'  //绑定元素
+			    ,change: function(value){
+			       ssss=value;
+			      }
+			  });
+			});
+		
+		function getnum(){
+		alert(	ssss);
+		}
 	</script>
 </body>
 </html>
